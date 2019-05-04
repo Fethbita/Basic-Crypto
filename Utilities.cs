@@ -37,7 +37,7 @@ namespace BIL4106_HW
         }
 
         public static void SignAndEncrypt(RSACryptoServiceProvider privateKey, RSACryptoServiceProvider publicKey,
-            FileStream stream, string encryptedFileName, string AESKeyFileName)
+            FileStream stream, string encryptedFileName)
         {
             byte[] sign = null;
             try
@@ -67,6 +67,7 @@ namespace BIL4106_HW
                         AES.GenerateKey();
                         encryptedRSA = publicKey.Encrypt(AES.Key, false);
 
+                        fs.Write(encryptedRSA, 0, encryptedRSA.Length);
                         fs.Write(AES.IV, 0, AES.BlockSize / 8);
                         using (var cs = new CryptoStream(fs, AES.CreateEncryptor(), CryptoStreamMode.Write))
                         {
@@ -86,72 +87,25 @@ namespace BIL4106_HW
             {
                 stream.Seek(0, SeekOrigin.Begin);
             }
-
-            try
-            {
-                using (StreamWriter writer = File.CreateText(AESKeyFileName))
-                {
-                    writer.Write(BitConverter.ToString(encryptedRSA).Replace("-", "").ToLowerInvariant());
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error while writing crypted AES key." + Environment.NewLine + e.Message);
-                return;
-            }
         }
 
         public static void DecryptAndVerify(RSACryptoServiceProvider privateKey, RSACryptoServiceProvider publicKey,
-            FileStream stream, string AESKeyFileName, string decryptedFileName)
+            FileStream stream, string decryptedFileName)
         {
-            string aesKey = null;
-            try
-            {
-                using (var streamReader = new StreamReader(AESKeyFileName, Encoding.UTF8))
-                {
-                    aesKey = streamReader.ReadLine();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error while reading AES Key file." + Environment.NewLine + e.Message);
-                return;
-            }
-
-            byte[] data = null;
-            try
-            {
-                data = StringToByteArray(aesKey);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Corrupt AES Key file." + Environment.NewLine + e.Message);
-                return;
-            }
-
-            byte[] AESKey = null;
-            try
-            {
-                AESKey = privateKey.Decrypt(data, false);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Decrypting the AES Key file did not succeed." + Environment.NewLine + e.Message);
-                return;
-            }
-
             byte[] sign = null;
             try
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
                 {
+                    var data = ReadFully(stream, privateKey.KeySize / 8);
+                    var AESKey = privateKey.Decrypt(data, false);
                     AES.Key = AESKey;
                     var iv = ReadFully(stream, AES.BlockSize / 8);
                     AES.IV = iv;
 
                     using (var cs = new NotClosingCryptoStream(stream, AES.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                        sign = ReadFully(cs, 256);
+                        sign = ReadFully(cs, publicKey.KeySize / 8);
                         using (FileStream fs = new FileStream(decryptedFileName, FileMode.Create, FileAccess.Write))
                         {
                             cs.CopyTo(fs);
@@ -290,9 +244,8 @@ namespace BIL4106_HW
         /// <param name="publicKey"></param>
         /// <param name="stream"></param>
         /// <param name="encryptedFileName"></param>
-        /// <param name="AESKeyFileName"></param>
         public static void EncryptAES(RSACryptoServiceProvider publicKey, FileStream stream,
-            string encryptedFileName, string AESKeyFileName)
+            string encryptedFileName)
         {
             byte[] encryptedRSA = null;
             try
@@ -305,6 +258,7 @@ namespace BIL4106_HW
                         AES.GenerateKey();
                         encryptedRSA = publicKey.Encrypt(AES.Key, false);
 
+                        fs.Write(encryptedRSA, 0, encryptedRSA.Length);
                         fs.Write(AES.IV, 0, AES.BlockSize / 8);
                         using (var cs = new CryptoStream(fs, AES.CreateEncryptor(), CryptoStreamMode.Write))
                         {
@@ -323,19 +277,6 @@ namespace BIL4106_HW
             {
                 stream.Seek(0, SeekOrigin.Begin);
             }
-
-            try
-            {
-                using (StreamWriter writer = File.CreateText(AESKeyFileName))
-                {
-                    writer.Write(BitConverter.ToString(encryptedRSA).Replace("-", "").ToLowerInvariant());
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error while writing crypted AES key." + Environment.NewLine + e.Message);
-                return;
-            }
         }
 
         /// <summary>
@@ -343,51 +284,16 @@ namespace BIL4106_HW
         /// </summary>
         /// <param name="privateKey"></param>
         /// <param name="stream"></param>
-        /// <param name="AESKeyFileName"></param>
         /// <param name="decryptedFileName"></param>
         public static void DecryptAES(RSACryptoServiceProvider privateKey, FileStream stream,
-            string AESKeyFileName, string decryptedFileName)
+            string decryptedFileName)
         {
-            string aesKey = null;
-            try
-            {
-                using (var streamReader = new StreamReader(AESKeyFileName, Encoding.UTF8))
-                {
-                    aesKey = streamReader.ReadLine();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error while reading AES Key file." + Environment.NewLine + e.Message);
-                return;
-            }
-
-            byte[] data = null;
-            try
-            {
-                data = StringToByteArray(aesKey);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Corrupt AES Key file." + Environment.NewLine + e.Message);
-                return;
-            }
-
-            byte[] AESKey = null;
-            try
-            {
-                AESKey = privateKey.Decrypt(data, false);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Decrypting the AES Key file did not succeed." + Environment.NewLine + e.Message);
-                return;
-            }
-
             try
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
                 {
+                    var data = ReadFully(stream, privateKey.KeySize / 8);
+                    var AESKey = privateKey.Decrypt(data, false);
                     AES.Key = AESKey;
                     var iv = ReadFully(stream, AES.BlockSize / 8);
                     AES.IV = iv;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,40 +28,29 @@ namespace BIL4106_HW
         {
             if (sign_radio.Checked)
             {
+                string signFileName = null;
                 saveFileDialog1.Title = "Save signature";
                 saveFileDialog1.DefaultExt = "sign";
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
                 {
+                    signFileName = saveFileDialog1.FileName;
+
                     disableControls();
-                    List<object> arguments = new List<object>();
-                    arguments.Add(saveFileDialog1.FileName);
-                    backgroundWorker2.RunWorkerAsync(arguments);
+                    backgroundWorker2.RunWorkerAsync(signFileName);
                 }
                 resetSaveFileDialog();
             }
             else if (encrypt_radio.Checked)
             {
                 string encryptedFileName = null;
-                string AESKeyFileName = null;
                 saveFileDialog1.Title = "Encrpted file to save";
                 saveFileDialog1.DefaultExt = "aes";
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
                 {
                     encryptedFileName = saveFileDialog1.FileName;
-                    resetSaveFileDialog();
 
-                    saveFileDialog1.Title = "Save AES key";
-                    saveFileDialog1.DefaultExt = "aeskey";
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
-                    {
-                        AESKeyFileName = saveFileDialog1.FileName;
-
-                        disableControls();
-                        List<object> arguments = new List<object>();
-                        arguments.Add(encryptedFileName);
-                        arguments.Add(AESKeyFileName);
-                        backgroundWorker3.RunWorkerAsync(arguments);
-                    }
+                    disableControls();
+                    backgroundWorker3.RunWorkerAsync(encryptedFileName);
                 }
                 resetSaveFileDialog();
             }
@@ -71,26 +59,14 @@ namespace BIL4106_HW
                 // Why sign and encrypt but not encrypt and sign
                 // https://crypto.stackexchange.com/a/5466
                 string encryptedFileName = null;
-                string AESKeyFileName = null;
                 saveFileDialog1.Title = "Encrpted & Signed file to save";
-                saveFileDialog1.DefaultExt = "aes";
+                saveFileDialog1.DefaultExt = "signed-aes";
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
                 {
                     encryptedFileName = saveFileDialog1.FileName;
-                    resetSaveFileDialog();
 
-                    saveFileDialog1.Title = "Save AES key";
-                    saveFileDialog1.DefaultExt = "aeskey";
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
-                    {
-                        AESKeyFileName = saveFileDialog1.FileName;
-
-                        disableControls();
-                        List<object> arguments = new List<object>();
-                        arguments.Add(encryptedFileName);
-                        arguments.Add(AESKeyFileName);
-                        backgroundWorker4.RunWorkerAsync(arguments);
-                    }
+                    disableControls();
+                    backgroundWorker4.RunWorkerAsync(encryptedFileName);
                 }
                 resetSaveFileDialog();
             }
@@ -99,64 +75,43 @@ namespace BIL4106_HW
         {
             if (verify_radio.Checked)
             {
+                string signFileName = null;
                 openFileDialog1.Title = "Open signature file";
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
+                    signFileName = openFileDialog1.FileName;
+
                     disableControls();
-                    List<object> arguments = new List<object>();
-                    arguments.Add(openFileDialog1.FileName);
-                    backgroundWorker5.RunWorkerAsync(arguments);
+                    backgroundWorker5.RunWorkerAsync(signFileName);
                 }
                 resetOpenFileDialog();
             }
             else if (decrypt_radio.Checked)
             {
-                string AESKeyFileName = null;
                 string decryptedFileName = null;
-                openFileDialog1.Title = "Open AES key";
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                saveFileDialog1.Title = "Decrypted File to save";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
                 {
-                    AESKeyFileName = openFileDialog1.FileName;
+                    decryptedFileName = saveFileDialog1.FileName;
 
-                    saveFileDialog1.Title = "Decrypted File to save";
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
-                    {
-                        decryptedFileName = saveFileDialog1.FileName;
-
-                        disableControls();
-                        List<object> arguments = new List<object>();
-                        arguments.Add(AESKeyFileName);
-                        arguments.Add(decryptedFileName);
-                        backgroundWorker6.RunWorkerAsync(arguments);
-                    }
+                    disableControls();
+                    backgroundWorker6.RunWorkerAsync(decryptedFileName);
                 }
-                resetOpenFileDialog();
                 resetSaveFileDialog();
             }
             else if (decryptverify_radio.Checked)
             {
                 // Why sign and encrypt but not encrypt and sign
                 // https://crypto.stackexchange.com/a/5466
-                string AESKeyFileName = null;
                 string decryptedFileName = null;
-                openFileDialog1.Title = "Open AES key";
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                saveFileDialog1.Title = "Decrypted File to save";
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
                 {
-                    AESKeyFileName = openFileDialog1.FileName;
+                    decryptedFileName = saveFileDialog1.FileName;
 
-                    saveFileDialog1.Title = "Decrypted File to save";
-                    if (saveFileDialog1.ShowDialog() == DialogResult.OK && saveFileDialog1.FileName != "")
-                    {
-                        decryptedFileName = saveFileDialog1.FileName;
-
-                        disableControls();
-                        List<object> arguments = new List<object>();
-                        arguments.Add(AESKeyFileName);
-                        arguments.Add(decryptedFileName);
-                        backgroundWorker7.RunWorkerAsync(arguments);
-                    }
+                    disableControls();
+                    backgroundWorker7.RunWorkerAsync(decryptedFileName);
                 }
-                resetOpenFileDialog();
                 resetSaveFileDialog();
             }
         }

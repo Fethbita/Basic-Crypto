@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
@@ -48,50 +46,40 @@ namespace BIL4106_HW
         }
         private void backgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string signFileName = genericlist[0] as string;
+            string signFileName = e.Argument as string;
 
             Utilities.Sign(privateKey, stream, signFileName);
         }
         private void backgroundWorker3_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string encryptedFileName = genericlist[0] as string;
-            string AESKeyFileName = genericlist[1] as string;
+            string encryptedFileName = e.Argument as string;
 
-            Utilities.EncryptAES(publicKey, stream, encryptedFileName, AESKeyFileName);
+            Utilities.EncryptAES(publicKey, stream, encryptedFileName);
         }
         private void backgroundWorker4_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string encryptedFileName = genericlist[0] as string;
-            string AESKeyFileName = genericlist[1] as string;
+            string encryptedFileName = e.Argument as string;
 
-            Utilities.SignAndEncrypt(privateKey, publicKey, stream, encryptedFileName, AESKeyFileName);
+            Utilities.SignAndEncrypt(privateKey, publicKey, stream, encryptedFileName);
         }
         private void backgroundWorker5_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string signFileName = genericlist[0] as string;
+            string signFileName = e.Argument as string;
 
             Utilities.Verify(publicKey, stream, signFileName);
         }
         private void backgroundWorker6_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string AESKeyFileName = genericlist[0] as string;
-            string decryptedFileName = genericlist[1] as string;
+            string decryptedFileName = e.Argument as string;
 
-            Utilities.DecryptAES(privateKey, stream, AESKeyFileName, decryptedFileName);
+            Utilities.DecryptAES(privateKey, stream, decryptedFileName);
 
         }
         private void backgroundWorker7_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            List<object> genericlist = e.Argument as List<object>;
-            string AESKeyFileName = genericlist[0] as string;
-            string decryptedFileName = genericlist[1] as string;
+            string decryptedFileName = e.Argument as string;
 
-            Utilities.DecryptAndVerify(privateKey, publicKey, stream, AESKeyFileName, decryptedFileName);
+            Utilities.DecryptAndVerify(privateKey, publicKey, stream, decryptedFileName);
         }
     }
 }
