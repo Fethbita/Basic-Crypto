@@ -180,7 +180,7 @@ namespace BIL4106_HW
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(67, 24);
+            this.label2.Location = new System.Drawing.Point(67, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 4;
@@ -237,7 +237,7 @@ namespace BIL4106_HW
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(75, 184);
+            this.label4.Location = new System.Drawing.Point(75, 201);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(0, 13);
             this.label4.TabIndex = 9;
@@ -245,7 +245,7 @@ namespace BIL4106_HW
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 184);
+            this.label3.Location = new System.Drawing.Point(12, 201);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
             this.label3.TabIndex = 8;
@@ -254,7 +254,7 @@ namespace BIL4106_HW
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(79, 206);
+            this.label6.Location = new System.Drawing.Point(79, 223);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(0, 13);
             this.label6.TabIndex = 11;
@@ -262,7 +262,7 @@ namespace BIL4106_HW
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 206);
+            this.label5.Location = new System.Drawing.Point(12, 223);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 10;
@@ -270,7 +270,7 @@ namespace BIL4106_HW
             // 
             // closefile_btn
             // 
-            this.closefile_btn.Location = new System.Drawing.Point(11, 145);
+            this.closefile_btn.Location = new System.Drawing.Point(11, 162);
             this.closefile_btn.Name = "closefile_btn";
             this.closefile_btn.Size = new System.Drawing.Size(77, 34);
             this.closefile_btn.TabIndex = 12;
@@ -325,7 +325,7 @@ namespace BIL4106_HW
             // 
             // closepublic_btn
             // 
-            this.closepublic_btn.Location = new System.Drawing.Point(87, 145);
+            this.closepublic_btn.Location = new System.Drawing.Point(87, 162);
             this.closepublic_btn.Name = "closepublic_btn";
             this.closepublic_btn.Size = new System.Drawing.Size(77, 34);
             this.closepublic_btn.TabIndex = 16;
@@ -335,7 +335,7 @@ namespace BIL4106_HW
             // 
             // closeprivate_btn
             // 
-            this.closeprivate_btn.Location = new System.Drawing.Point(163, 145);
+            this.closeprivate_btn.Location = new System.Drawing.Point(163, 162);
             this.closeprivate_btn.Name = "closeprivate_btn";
             this.closeprivate_btn.Size = new System.Drawing.Size(77, 34);
             this.closeprivate_btn.TabIndex = 17;
@@ -382,7 +382,7 @@ namespace BIL4106_HW
             // 
             this.groupBox1.Controls.Add(this.checkedListBox1);
             this.groupBox1.Controls.Add(this.hash_btn);
-            this.groupBox1.Location = new System.Drawing.Point(12, 24);
+            this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(227, 115);
             this.groupBox1.TabIndex = 18;
@@ -395,7 +395,7 @@ namespace BIL4106_HW
             this.groupBox2.Controls.Add(this.sign_radio);
             this.groupBox2.Controls.Add(this.encrypt_radio);
             this.groupBox2.Controls.Add(this.doit_btn);
-            this.groupBox2.Location = new System.Drawing.Point(12, 222);
+            this.groupBox2.Location = new System.Drawing.Point(12, 239);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(227, 115);
             this.groupBox2.TabIndex = 19;
@@ -408,7 +408,7 @@ namespace BIL4106_HW
             this.groupBox3.Controls.Add(this.verify_radio);
             this.groupBox3.Controls.Add(this.doitreverse_btn);
             this.groupBox3.Controls.Add(this.decrypt_radio);
-            this.groupBox3.Location = new System.Drawing.Point(12, 343);
+            this.groupBox3.Location = new System.Drawing.Point(12, 360);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(227, 115);
             this.groupBox3.TabIndex = 20;
@@ -419,7 +419,7 @@ namespace BIL4106_HW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 470);
+            this.ClientSize = new System.Drawing.Size(250, 486);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -434,7 +434,7 @@ namespace BIL4106_HW
             this.Controls.Add(this.label6);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(266, 509);
+            this.MinimumSize = new System.Drawing.Size(266, 525);
             this.Name = "Form1";
             this.Text = "HW1";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
